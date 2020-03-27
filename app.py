@@ -9,21 +9,16 @@ from flask_pymongo import PyMongo
 
 from modules.JSONEncoder import JSONEncoder
 from modules.config import DevelopmentConfig
-
+from modules.routes import expose_routes
 app = Flask(__name__)
 app.config.from_object(DevelopmentConfig)
 mongo = PyMongo(app)
 
 app.json_encoder = JSONEncoder
 
+n = 0
 
-@app.route('/', methods=['GET'])
-def get_all():
-    output = mongo.db.applogs.find().limit(5)
-    result = []
-    for i in output:
-        result.append(i)
-    return jsonify(result)
+expose_routes(app, mongo)
 
 
 def get_data_in_interval(mongo_resource, start, end):
@@ -32,7 +27,7 @@ def get_data_in_interval(mongo_resource, start, end):
             "$gte": start,
             "$lt": end
         }
-    })
+    }).limit(500)
     # result = []
     # for i in cursor:
     #     result.append(i)
@@ -61,6 +56,7 @@ def generate_time_intervals(start, interval_size, end):
     start = int(start)
     end = int(end)
     interval_list = []
+    global n
     n = int((end - start) / interval_size)
     print("n: " + str(n))
     counter = start
@@ -71,13 +67,15 @@ def generate_time_intervals(start, interval_size, end):
     return interval_list
 
 
-@app.route('/ping/', methods=['GET'])
+@app.route('/display/', methods=['GET'])
 def get_ping():
     mongo_res = mongo.db.applogs
     interval_size = 20000
     start = int(datetime.strptime('28.08.1995 00:00:34,00',
                                   '%d.%m.%Y %H:%M:%S,%f').timestamp() * 10000)
-    end = int(datetime.strptime('28.08.1995 10:01:28,00',
+    # full: 10:01:28
+    # 500: 00:04:00
+    end = int(datetime.strptime('28.08.1995 00:04:00,00',
                                 '%d.%m.%Y %H:%M:%S,%f').timestamp() * 10000)
     interval_list = generate_time_intervals(start, interval_size, end)
     # print(interval_list)
