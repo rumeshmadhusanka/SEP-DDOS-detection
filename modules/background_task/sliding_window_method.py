@@ -2,83 +2,6 @@ import math
 
 import numpy as np
 
-data = [
-    {
-        "abc.com": 1,
-        "204.249.225.59": 35,
-        "access9.accsyst.com": 31,
-        "cssu24.cs.ust.hk": 35,
-        "er6.rutgers.edu": 16,
-        "world.std.com": 14,
-        "cyclom1-1-6.intersource.com": 13,
-        "d24-1.cpe.Brisbane.aone.net.au": 16,
-        "ppp19.glas.apc.org": 28,
-        "pqr.com": 2,
-
-    },
-    {
-        "cssu24.cs.ust.hk": 14,
-        "cyclom1-1-6.intersource.com": 16,
-        "er6.rutgers.edu": 15,
-        "world.std.com": 17,
-        "access9.accsyst.com": 31,
-        "204.249.225.59": 35,
-        "d24-1.cpe.Brisbane.aone.net.au": 16,
-        "ppp19.glas.apc.org": 28,
-        "pqr.com": 3,
-    },
-    {
-        "cssu24.cs.ust.hk": 18,
-        "d24-1.cpe.Brisbane.aone.net.au": 16,
-        "world.std.com": 34,
-        "er6.rutgers.edu": 17,
-        "cyclom1-1-6.intersource.com": 71,
-        "access9.accsyst.com": 31,
-        "204.249.225.59": 35,
-        "ppp19.glas.apc.org": 28,
-        "pqr.com": 1,
-    },
-    {
-        "cssu24.cs.ust.hk": 18,
-        "d24-1.cpe.Brisbane.aone.net.au": 16,
-        "world.std.com": 34,
-        "er6.rutgers.edu": 17,
-        "cyclom1-1-6.intersource.com": 71,
-        "access9.accsyst.com": 31,
-        "204.249.225.59": 35,
-        "ppp19.glas.apc.org": 28,
-        "abc.com": 1,
-        "pqr.com": 1,
-
-    },
-    {
-        "ppp19.glas.apc.org": 342,
-        "d24-1.cpe.Brisbane.aone.net.au": 1,
-        "cssu24.cs.ust.hk": 18,
-        "world.std.com": 34,
-        "er6.rutgers.edu": 17,
-        "cyclom1-1-6.intersource.com": 71,
-        "access9.accsyst.com": 31,
-        "204.249.225.59": 35,
-        "abc.com": 1,
-        "pqr.com": 2,
-
-    },
-    {
-        "ppp19.glas.apc.org": 342,
-        "d24-1.cpe.Brisbane.aone.net.au": 1,
-        "cssu24.cs.ust.hk": 18,
-        "world.std.com": 34,
-        "er6.rutgers.edu": 17,
-        "cyclom1-1-6.intersource.com": 71,
-        "access9.accsyst.com": 31,
-        "204.249.225.59": 35,
-        "pqr.com": 3,
-
-    }
-
-]
-
 
 def cal_entropy_per_window(data_lst):
     entropy_list = []
@@ -108,9 +31,6 @@ def cal_entropy_per_window(data_lst):
     return entropy_list
 
 
-data2 = [3.0550488507104108, 3.6888953270038343, 3.230820142897017, 4.7950819120487225, 4.116323468940876]
-
-
 def average(data_list):
     avg = 0
     for i in data_list:
@@ -135,7 +55,7 @@ def algorithm(data_list, avg_val):
     global beta
     global omega
     std_dev = cal_std_deviation(data_list, avg_val)
-    omega = beta * st_dev
+    omega = beta * std_dev
     for H in data_list:
         D_i = abs(H - avg_val)
         if H > 1.5 * avg_val:
@@ -152,11 +72,92 @@ def algorithm(data_list, avg_val):
     print("Omega:", omega)
 
 
-if __name__ == "__main__":
+def sliding_window(data):
     entropy = cal_entropy_per_window(data)
     print(entropy)
     avr = average(entropy)
     print("Avg:", avr)
-    st_dev = cal_std_deviation(data2, avr)
+    st_dev = cal_std_deviation(entropy, avr)
     print("Std dev", st_dev)
-    algorithm(data2, avr)
+    algorithm(entropy, avr)
+
+
+if __name__ == "__main__":
+    data = [
+        {
+            "abc.com": 1,
+            "204.249.225.59": 35,
+            "access9.accsyst.com": 31,
+            "cssu24.cs.ust.hk": 35,
+            "er6.rutgers.edu": 16,
+            "world.std.com": 14,
+            "cyclom1-1-6.intersource.com": 13,
+            "d24-1.cpe.Brisbane.aone.net.au": 16,
+            "ppp19.glas.apc.org": 28,
+            "pqr.com": 2,
+
+        },
+        {
+            "cssu24.cs.ust.hk": 14,
+            "cyclom1-1-6.intersource.com": 16,
+            "er6.rutgers.edu": 15,
+            "world.std.com": 17,
+            "access9.accsyst.com": 31,
+            "204.249.225.59": 35,
+            "d24-1.cpe.Brisbane.aone.net.au": 16,
+            "ppp19.glas.apc.org": 28,
+            "pqr.com": 3,
+        },
+        {
+            "cssu24.cs.ust.hk": 18,
+            "d24-1.cpe.Brisbane.aone.net.au": 16,
+            "world.std.com": 34,
+            "er6.rutgers.edu": 17,
+            "cyclom1-1-6.intersource.com": 71,
+            "access9.accsyst.com": 31,
+            "204.249.225.59": 35,
+            "ppp19.glas.apc.org": 28,
+            "pqr.com": 1,
+        },
+        {
+            "cssu24.cs.ust.hk": 18,
+            "d24-1.cpe.Brisbane.aone.net.au": 16,
+            "world.std.com": 34,
+            "er6.rutgers.edu": 17,
+            "cyclom1-1-6.intersource.com": 71,
+            "access9.accsyst.com": 31,
+            "204.249.225.59": 35,
+            "ppp19.glas.apc.org": 28,
+            "abc.com": 1,
+            "pqr.com": 1,
+
+        },
+        {
+            "ppp19.glas.apc.org": 342,
+            "d24-1.cpe.Brisbane.aone.net.au": 1,
+            "cssu24.cs.ust.hk": 18,
+            "world.std.com": 34,
+            "er6.rutgers.edu": 17,
+            "cyclom1-1-6.intersource.com": 71,
+            "access9.accsyst.com": 31,
+            "204.249.225.59": 35,
+            "abc.com": 1,
+            "pqr.com": 2,
+
+        },
+        {
+            "ppp19.glas.apc.org": 342,
+            "d24-1.cpe.Brisbane.aone.net.au": 1,
+            "cssu24.cs.ust.hk": 18,
+            "world.std.com": 34,
+            "er6.rutgers.edu": 17,
+            "cyclom1-1-6.intersource.com": 71,
+            "access9.accsyst.com": 31,
+            "204.249.225.59": 35,
+            "pqr.com": 3,
+
+        }
+
+    ]
+    a = [3.0550488507104108, 3.6888953270038343, 3.230820142897017, 4.7950819120487225, 4.116323468940876]
+    sliding_window(data)
