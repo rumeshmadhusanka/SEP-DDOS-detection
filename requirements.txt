@@ -5,6 +5,7 @@ click==7.1.1
 crefi==2.0.9
 Flask==1.1.1
 Flask-PyMongo==2.3.0
+gunicorn==20.0.4
 idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.1
