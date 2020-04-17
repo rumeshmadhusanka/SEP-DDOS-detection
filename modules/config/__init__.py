@@ -1,32 +1,27 @@
+import os
+from os import environ
+
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '../../.env')
+load_dotenv(dotenv_path)
+
+
 class Config(object):
-    DEBUG = False
-    TESTING = False
-    NODE_NAME = 'DDoS Detection Node'
-    MONGO_URI = 'mongodb://localhost:27017'
-    MONGO_DATABASE = 'test'
-    MONGO_LOG_COLLECTION = 'applogs'
-    MONGO_IP_COLUMN_NAME = 'hostname'
-    BETA = 3
-    OMEGA = 0
-    PORT = 4000
-    SLIDING_WINDOW = 20  # 20 seconds
-    SLIDING_WINDOW_PIECE = 5  # 5 seconds
-    API_GATEWAY_HEALTH_ENDPOINT = 'http://localhost:5000/health'
-
-
-class ProductionConfig(Config):
-    MONGO_URI = 'mongodb+srv://rumesh:password-abc123@medical-cluster-efyfq.mongodb.net'
-
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-    FLASK_ENV = 'development'
-
-
-class TestingConfig(Config):
-    TESTING = True
+    DEBUG = environ.get("DEBUG")
+    NODE_NAME = environ.get("NODE_NAME")
+    MONGO_URI = environ.get("MONGO_URI")
+    MONGO_DATABASE = environ.get("MONGO_DATABASE")
+    MONGO_LOG_COLLECTION = environ.get("MONGO_LOG_COLLECTION")
+    MONGO_IP_COLUMN_NAME = environ.get("MONGO_IP_COLUMN_NAME")
+    BETA = environ.get("BETA")
+    OMEGA = environ.get("OMEGA")
+    PORT = environ.get("PORT")
+    SLIDING_WINDOW = environ.get("SLIDING_WINDOW")  # 20 seconds
+    SLIDING_WINDOW_PIECE = environ.get("SLIDING_WINDOW_PIECE")  # 5 seconds
+    API_GATEWAY_HEALTH_ENDPOINT = environ.get("API_GATEWAY_HEALTH_ENDPOINT")
 
 
 if __name__ == "__main__":
-    p = ProductionConfig()
-    print(p.MONGO_URI)
+    p = Config()
+    print(str(p.MONGO_URI))

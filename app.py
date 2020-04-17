@@ -1,9 +1,10 @@
+import os
+
 from flask import Flask
 from flask_pymongo import PyMongo
 
 from modules.JSONEncoder import JSONEncoder
-from modules.background_task import task as ddos_detection
-from modules.config import DevelopmentConfig as Conf
+from modules.config import Config as Conf
 from modules.routes import expose_routes
 
 app = Flask(__name__)
