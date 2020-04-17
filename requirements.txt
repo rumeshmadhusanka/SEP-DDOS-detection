@@ -1,3 +1,5 @@
+psutil
+uptime
 numpy
 Flask==1.1.1
 requests==2.23.0

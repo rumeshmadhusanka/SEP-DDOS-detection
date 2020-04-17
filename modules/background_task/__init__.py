@@ -3,7 +3,7 @@ from datetime import datetime
 from threading import Thread
 
 import pymongo
-from apscheduler.schedulers.background import BlockingScheduler
+from apscheduler.schedulers.background import BlockingScheduler, BackgroundScheduler
 
 from modules.background_task.sliding_window_method import sliding_window
 from modules.background_task.variance_method import variance_method
@@ -80,7 +80,7 @@ def task():
     beta = Config.BETA
     omega = Config.OMEGA
 
-    scheduler = BlockingScheduler()
+    scheduler = BackgroundScheduler()
     job = scheduler.add_job(func=spawn_threads, args=[mongo_res], trigger='interval', seconds=3)
     try:
         scheduler.start()
