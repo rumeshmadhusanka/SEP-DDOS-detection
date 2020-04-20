@@ -31,6 +31,6 @@ def expose_routes(app, mongo):
         return jsonify({"name": name,
                         "cpu": cpu,
                         "uptime": upt,
-                        "free mem": free_mem[0],  # change free mem
-                        "total mem": memoryUse,
-                        "load avg": avg_load})
+                        "free_mem": free_mem[0],  # change free mem
+                        "total_mem": memoryUse,
+                        "load_avg": avg_load})
