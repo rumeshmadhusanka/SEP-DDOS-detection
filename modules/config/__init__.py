@@ -20,6 +20,7 @@ class Config(object):
     SLIDING_WINDOW = environ.get("SLIDING_WINDOW")  # 20 seconds
     SLIDING_WINDOW_PIECE = environ.get("SLIDING_WINDOW_PIECE")  # 5 seconds
     API_GATEWAY_HEALTH_ENDPOINT = environ.get("API_GATEWAY_HEALTH_ENDPOINT")
+    API_GATEWAY_KEY = environ.get("API_GATEWAY_KEY")
 
 
 if __name__ == "__main__":
