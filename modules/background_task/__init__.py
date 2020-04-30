@@ -11,13 +11,18 @@ from modules.config import Config
 
 
 def get_data_in_interval(mongo_resource, start, end):
-    cursor = mongo_resource.find({
-        "time": {
-            "$gte": start,
-            "$lt": end
-        }
-    }).limit(500)
-    return cursor
+    print("Getting data")
+    try:
+        cursor = mongo_resource.find({
+            "time": {
+                "$gte": start,
+                "$lt": end
+            }
+        }).limit(500)
+        return cursor
+    except ConnectionError  as e:
+        print("Connection Error")
+        return []
 
 
 def generate_time_intervals(start1, interval_size, end1):
@@ -52,24 +57,31 @@ def get_result_table(data):
 
 
 def spawn_threads(mongo_res):
-    start = int(datetime.now().timestamp() * 10000 - Config.SLIDING_WINDOW * 1000)
-    end = int(datetime.now().timestamp() * 10000)
-    interval_list = generate_time_intervals(start, Config.SLIDING_WINDOW_PIECE * 1000, end)
-    data_list1 = []
-    for lst in interval_list:
-        data = get_data_in_interval(mongo_res, lst[0], lst[1])
-        data_list1.append(get_result_table(data))
-    print(interval_list)
-    print(data_list1)
+    try:
+        start = int(datetime.now().timestamp() * 10000 - float(Config.SLIDING_WINDOW) * 1000)
+        end = int(datetime.now().timestamp() * 10000)
+        interval_list = generate_time_intervals(start, int(Config.SLIDING_WINDOW_PIECE) * 1000, end)
+        data_list1 = []
+        for lst in interval_list:
+            data = get_data_in_interval(mongo_res, lst[0], lst[1])
+            data_list1.append(get_result_table(data))
+        print(interval_list)
+        print(data_list1)
 
-    var_thread = Thread(target=variance_method, args=(data_list1,))
-    var_thread.daemon = True
+        var_thread = Thread(target=variance_method, args=(data_list1,))
+        var_thread.daemon = True
+        var_thread.setName("Variance Method thread")
 
-    slide_thread = Thread(target=sliding_window, args=(data_list1,))
-    slide_thread.daemon = True
+        slide_thread = Thread(target=sliding_window, args=(data_list1,))
+        slide_thread.daemon = True
+        slide_thread.setName("Sliding Window thread")
 
-    var_thread.start()
-    slide_thread.start()
+        var_thread.start()
+        slide_thread.start()
+        print("Threads started :" + var_thread.getName() + ", " + slide_thread.getName())
+    except BaseException as e:
+        print("Error in Spawn threads")
+        print(e)
 
 
 def task():
@@ -85,7 +97,7 @@ def task():
     try:
         scheduler.start()
         atexit.register(lambda: scheduler.shutdown())
-    except BaseException as e:
+    except Exception as e:
         pass
 
 

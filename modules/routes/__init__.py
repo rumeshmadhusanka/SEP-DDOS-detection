@@ -15,8 +15,11 @@ def expose_routes(app, mongo):
 
     @app.route('/ping/', methods=['GET'])
     def ping():
-        r = requests.get(Config.API_GATEWAY_HEALTH_ENDPOINT)
-        return jsonify(r.json())
+        try:
+            r = requests.get(Config.API_GATEWAY_HEALTH_ENDPOINT)
+            return jsonify(r.json())
+        except ConnectionError as e:
+            return "Error"
 
     @app.route('/health', methods=['GET'])
     def health():

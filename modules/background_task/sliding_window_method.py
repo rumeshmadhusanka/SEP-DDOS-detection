@@ -33,6 +33,8 @@ def cal_entropy_per_window(data_lst):
 
 def average(data_list):
     avg = 0
+    if len(data_list) == 0:
+        return 0
     for i in data_list:
         avg += i
     avg = avg / len(data_list)
