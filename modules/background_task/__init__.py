@@ -58,15 +58,15 @@ def get_result_table(data):
 
 def spawn_threads(mongo_res):
     try:
-        start = int(datetime.now().timestamp() * 10000 - float(Config.SLIDING_WINDOW) * 1000)
-        end = int(datetime.now().timestamp() * 10000)
+        start = int(datetime.now().timestamp() * 1000 - float(Config.SLIDING_WINDOW) * 1000)
+        end = int(datetime.now().timestamp() * 1000)
         interval_list = generate_time_intervals(start, int(Config.SLIDING_WINDOW_PIECE) * 1000, end)
         data_list1 = []
         for lst in interval_list:
             data = get_data_in_interval(mongo_res, lst[0], lst[1])
             data_list1.append(get_result_table(data))
-        print(interval_list)
-        print(data_list1)
+        print("Interval list: ", interval_list)
+        print("Data list1: ", data_list1)
 
         var_thread = Thread(target=variance_method, args=(data_list1,))
         var_thread.daemon = True
