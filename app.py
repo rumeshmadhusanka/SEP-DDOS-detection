@@ -19,7 +19,7 @@ expose_routes(app, mongo)
 @app.before_first_request
 def schedule_threaded_task():
     pass
-    task()
+    # task()
 
 
 if __name__ == '__main__':
