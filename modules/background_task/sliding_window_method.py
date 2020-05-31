@@ -76,7 +76,7 @@ def algorithm(data_list, avg_val):
 
 def sliding_window(data):
     entropy = cal_entropy_per_window(data)
-    print(entropy)
+    print("Entropy: ", entropy)
     avr = average(entropy)
     print("Avg:", avr)
     st_dev = cal_std_deviation(entropy, avr)

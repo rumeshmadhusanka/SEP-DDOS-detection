@@ -18,8 +18,8 @@ expose_routes(app, mongo)
 
 @app.before_first_request
 def schedule_threaded_task():
-    pass
-    # task()
+    if Conf.DDOS_DETECTION_ON == "1":
+        task()
 
 
 if __name__ == '__main__':

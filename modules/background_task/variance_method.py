@@ -85,7 +85,7 @@ def find_possibles(var_dic, all_dic):
 
 def variance_method(data):
     entropy = cal_entropy(data)
-    print(entropy)
+    print("Entropy: ", entropy)
     avg_lst = cal_average_entropy_for_each_conn(entropy)
     var = cal_variance(entropy, avg_lst)
     print("Avg: ", avg_lst)

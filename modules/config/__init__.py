@@ -3,8 +3,11 @@ from os import environ
 
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '../../.env')
-load_dotenv(dotenv_path)
+try:
+    dotenv_path = os.path.join(os.path.dirname(__file__), '../../.env')
+    load_dotenv(dotenv_path)
+except Exception as e:
+    print("Could not load .env file ", e)
 
 
 class Config(object):
@@ -21,8 +24,9 @@ class Config(object):
     SLIDING_WINDOW_PIECE = environ.get("SLIDING_WINDOW_PIECE")  # 5 seconds
     API_GATEWAY_HEALTH_ENDPOINT = environ.get("API_GATEWAY_HEALTH_ENDPOINT")
     API_GATEWAY_KEY = environ.get("API_GATEWAY_KEY")
+    DDOS_DETECTION_ON = environ.get("DDOS_DETECTION_ON")
 
 
 if __name__ == "__main__":
     p = Config()
-    print(str(p.MONGO_URI))
+    print(type(p.DDOS_DETECTION_ON))
