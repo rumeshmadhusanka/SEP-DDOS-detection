@@ -19,7 +19,7 @@ packaging==20.3
 pandas==1.0.3
 pluggy==0.13.1
 psutil==5.7.0
-py==1.8.1
+py==1.10.0
 pymongo==3.10.1
 pyparsing==2.4.7
 pytest==5.4.1
