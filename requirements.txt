@@ -31,7 +31,7 @@ requests==2.23.0
 six==1.14.0
 tzlocal==2.0.0
 uptime==3.0.1
-urllib3==1.25.8
+urllib3==1.26.5
 wcwidth==0.1.9
 Werkzeug==1.0.0
 zipp==3.1.0
